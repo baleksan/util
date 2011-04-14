@@ -45,7 +45,7 @@ public class TreeNode<N> {
     public void removeChild(N value, boolean promoteGrandchildren) {
         TreeNode<N> nodeToRemove = null;
         List<TreeNode<N>> nodesToAdd = new ArrayList<TreeNode<N>>();
-        for (TreeNode<N> child : Collections.unmodifiableList(children)) {
+        for (TreeNode<N> child : children) {
             if (child.getValue().equals(value)) {
                 if (promoteGrandchildren) {
                     //promote children of the removed node up

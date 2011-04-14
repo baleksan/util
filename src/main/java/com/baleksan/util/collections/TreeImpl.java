@@ -76,7 +76,7 @@ public class TreeImpl<N> implements Tree<N> {
     }
 
     private void removeNode(N value, boolean promoteGrandchildren) {
-        for (TreeNode<N> parent : Collections.unmodifiableList(childParentMap.get(value))) {
+        for (TreeNode<N> parent : childParentMap.get(value)) {
             if (parent == null) {
                 throw new IllegalArgumentException("Cannot remove root");
             }
