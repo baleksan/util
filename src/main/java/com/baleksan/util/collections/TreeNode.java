@@ -1,6 +1,7 @@
 package com.baleksan.util.collections;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,16 +42,28 @@ public class TreeNode<N> {
         return parent;
     }
 
-    public void removeChild(TreeNode<N> node, boolean promoteGrandchildren) {
-        if (!children.contains(node)) {
-            return;
+    public void removeChild(N value, boolean promoteGrandchildren) {
+        TreeNode<N> nodeToRemove = null;
+        List<TreeNode<N>> nodesToAdd = new ArrayList<TreeNode<N>>();
+        for (TreeNode<N> child : Collections.unmodifiableList(children)) {
+            if (child.getValue().equals(value)) {
+                if (promoteGrandchildren) {
+                    //promote children of the removed node up
+                    for (TreeNode<N> grandChild : child.getChildren()) {
+                        nodesToAdd.add(grandChild);
+                    }
+                }
+
+                nodeToRemove = child;
+            }
         }
 
-        if (promoteGrandchildren) {
-            //promote children of the removed node up
-            for (TreeNode<N> child : node.getChildren()) {
-                children.add(child);
-            }
+        if (nodeToRemove != null) {
+            children.remove(nodeToRemove);
+        }
+
+        for (TreeNode<N> node : nodesToAdd) {
+            children.add(node);
         }
     }
 
@@ -76,5 +89,35 @@ public class TreeNode<N> {
 
     public boolean hasChildren() {
         return !children.isEmpty();
+    }
+
+    public int getNumDescendants() {
+        int numDescendants = 0;
+        for (TreeNode<N> child : getChildren()) {
+            numDescendants += child.getNumDescendants();
+        }
+        return numDescendants;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TreeNode treeNode = (TreeNode) o;
+
+        if (children != null ? !children.equals(treeNode.children) : treeNode.children != null) return false;
+        if (parent != null ? !parent.equals(treeNode.parent) : treeNode.parent != null) return false;
+        if (value != null ? !value.equals(treeNode.value) : treeNode.value != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = value != null ? value.hashCode() : 0;
+        result = 31 * result + (parent != null ? parent.hashCode() : 0);
+        result = 31 * result + (children != null ? children.hashCode() : 0);
+        return result;
     }
 }

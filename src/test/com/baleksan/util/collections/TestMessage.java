@@ -24,5 +24,25 @@ public class TestMessage {
     public String toString() {
         return messageId + ":" + replyToId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TestMessage that = (TestMessage) o;
+
+        if (messageId != that.messageId) return false;
+        if (replyToId != that.replyToId) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (messageId ^ (messageId >>> 32));
+        result = 31 * result + (int) (replyToId ^ (replyToId >>> 32));
+        return result;
+    }
 }
 
