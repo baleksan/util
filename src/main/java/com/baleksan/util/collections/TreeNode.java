@@ -1,7 +1,6 @@
 package com.baleksan.util.collections;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -106,18 +105,11 @@ public class TreeNode<N> {
 
         TreeNode treeNode = (TreeNode) o;
 
-        if (children != null ? !children.equals(treeNode.children) : treeNode.children != null) return false;
-        if (parent != null ? !parent.equals(treeNode.parent) : treeNode.parent != null) return false;
-        if (value != null ? !value.equals(treeNode.value) : treeNode.value != null) return false;
-
-        return true;
+        return !(value != null ? !value.equals(treeNode.value) : treeNode.value != null);
     }
 
     @Override
     public int hashCode() {
-        int result = value != null ? value.hashCode() : 0;
-        result = 31 * result + (parent != null ? parent.hashCode() : 0);
-        result = 31 * result + (children != null ? children.hashCode() : 0);
-        return result;
+        return value != null ? value.hashCode() : 0;
     }
 }
