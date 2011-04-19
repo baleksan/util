@@ -96,6 +96,10 @@ public class TreeImpl<N> implements Tree<N> {
     }
 
     private List<N> dfs(List<N> result, TreeNode<N> root) {
+        if(root == null) {
+            return result;
+        }
+
         result.add(root.getValue());
         if (root.hasChildren()) {
             for (TreeNode<N> child : root.getChildren()) {
