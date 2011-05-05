@@ -160,7 +160,28 @@ public class TreeTest {
         tree1.add(new TestMessage(10, 9));
 
         List<TestMessage> dfsRep = tree1.dfs();
-        int i = 0;
+        Assert.assertEquals(dfsRep.size(), 11);
+    }
 
+    @Test
+    public void testContainsValue() {
+        Tree<TestMessage> tree1 = new TreeImpl<TestMessage>(new TestInserter());
+        tree1.add(new TestMessage(0, -1));
+        tree1.add(new TestMessage(1, 0));
+        tree1.add(new TestMessage(2, 0));
+        tree1.add(new TestMessage(3, 0));
+        tree1.add(new TestMessage(4, 1));
+        tree1.add(new TestMessage(5, 1));
+        tree1.add(new TestMessage(6, 2));
+        tree1.add(new TestMessage(7, 2));
+        tree1.add(new TestMessage(8, 4));
+        tree1.add(new TestMessage(9, 8));
+        tree1.add(new TestMessage(10, 9));
+
+        Assert.assertTrue(tree1.containsValue(new TestMessage(0, -1)));
+        Assert.assertTrue(tree1.containsValue(new TestMessage(1, 0)));
+        Assert.assertTrue(tree1.containsValue(new TestMessage(7, 2)));
+        Assert.assertFalse(tree1.containsValue(new TestMessage(7, 3)));
+        Assert.assertFalse(tree1.containsValue(new TestMessage(7, 9)));
     }
 }

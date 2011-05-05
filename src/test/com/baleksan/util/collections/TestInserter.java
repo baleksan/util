@@ -6,9 +6,9 @@ package com.baleksan.util.collections;
 public class TestInserter implements TreeInserter<TestMessage> {
     @Override
     public boolean insertHere(TestMessage potentialParent, TestMessage newValue) {
-        if(newValue.getReplyToId() == 0) {
-            return true;
-        }
+//        if(newValue.getReplyToId() == 0) {
+//            return true;
+//        }
 
         return newValue.getReplyToId() == potentialParent.getMessageId();
     }

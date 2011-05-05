@@ -1,12 +1,13 @@
 package com.baleksan.util.collections;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author <a href="mailto:baleksan@yammer-inc.com" boris/>
  */
-public class TreeNode<N> {
+public class TreeNode<N extends Comparable> implements Comparable<TreeNode<N>> {
     public N value;
 
     public TreeNode<N> parent;
@@ -18,14 +19,14 @@ public class TreeNode<N> {
     }
 
     public List<TreeNode<N>> getChildren() {
-        return children;
+        return Collections.unmodifiableList(children);
     }
 
-    public void addChild(TreeNode<N> child) {
+    public synchronized void addChild(TreeNode<N> child) {
         children.add(child);
     }
 
-    public void addChildAt(TreeNode<N> child, int position) {
+    public synchronized void addChildAt(TreeNode<N> child, int position) {
         children.set(position, child);
     }
 
@@ -41,7 +42,7 @@ public class TreeNode<N> {
         return parent;
     }
 
-    public void removeChild(N value, boolean promoteGrandchildren) {
+    public synchronized void removeChild(N value, boolean promoteGrandchildren) {
         TreeNode<N> nodeToRemove = null;
         List<TreeNode<N>> nodesToAdd = new ArrayList<TreeNode<N>>();
         for (TreeNode<N> child : children) {
@@ -77,16 +78,19 @@ public class TreeNode<N> {
         builder.append("{");
         builder.append(parent == null ? "null" : parent.getValue().toString());
         builder.append("} - > [");
-        for (TreeNode<N> child : children) {
-            builder.append(child.toString());
-            builder.append(", ");
+
+        synchronized (this) {
+            for (TreeNode<N> child : children) {
+                builder.append(child.toString());
+                builder.append(", ");
+            }
         }
         builder.append("]");
 
         return builder.toString();
     }
 
-    public boolean hasChildren() {
+    public synchronized boolean hasChildren() {
         return !children.isEmpty();
     }
 
@@ -111,5 +115,10 @@ public class TreeNode<N> {
     @Override
     public int hashCode() {
         return value != null ? value.hashCode() : 0;
+    }
+
+    @Override
+    public int compareTo(TreeNode<N> o) {
+        return value.compareTo(o.getValue());
     }
 }

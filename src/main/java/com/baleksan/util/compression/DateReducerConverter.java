@@ -3,6 +3,7 @@ package com.baleksan.util.compression;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * @author <a href="mailto:baleksan@yammer-inc.com" boris/>
@@ -21,7 +22,7 @@ public class DateReducerConverter {
         String day = facetDate.substring(2, 4);
         String year = facetDate.substring(4);
 
-        Calendar cal = new GregorianCalendar();
+        Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         cal.set(Calendar.YEAR, Integer.parseInt(year));
         cal.set(Calendar.MONTH, Integer.parseInt(month) - 1);
         cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));

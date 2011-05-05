@@ -3,7 +3,7 @@ package com.baleksan.util.collections;
 /**
  * @author <a href="mailto:baleksan@yammer-inc.com" boris/>
  */
-public class TestMessage {
+public class TestMessage implements Comparable<TestMessage> {
     public long messageId;
     public long replyToId;
 
@@ -43,6 +43,11 @@ public class TestMessage {
         int result = (int) (messageId ^ (messageId >>> 32));
         result = 31 * result + (int) (replyToId ^ (replyToId >>> 32));
         return result;
+    }
+
+    @Override
+    public int compareTo(TestMessage o) {
+        return (int) (messageId - o.getMessageId());
     }
 }
 

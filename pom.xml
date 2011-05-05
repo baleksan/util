@@ -15,7 +15,7 @@
     <repositories>
         <repository>
             <id>yammer-internal</id>
-            <url>http://repo.yammer.com/maven/</url>
+            <url>http://repo.int.yammer.com/maven/</url>
         </repository>
     </repositories>
     <dependencies>
