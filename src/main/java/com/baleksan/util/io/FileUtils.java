@@ -48,7 +48,7 @@ public final class FileUtils {
      * Deletes all files and sub-directories under dir. Returns true if all
      * deletions were successful. If a deletion fails, the method stops
      * attempting to delete and returns false.
-     * 
+     *
      * @param dir directory to delete
      * @return true on success
      */
@@ -72,7 +72,7 @@ public final class FileUtils {
 
     /**
      * Remove directory by renaming and then removing the renamed dir.
-     * 
+     *
      * @param dir dir to delete
      */
     public static void fastDeleteDir(final File dir) {
@@ -89,8 +89,8 @@ public final class FileUtils {
 
     /**
      * Copies a file using stream channel objects and channel buffer.
-     * 
-     * @param src source file
+     *
+     * @param src  source file
      * @param dest destination file
      * @throws IOException propagated exceptions
      */
@@ -116,8 +116,8 @@ public final class FileUtils {
 
     /**
      * Copies a file using 1KB buffer.
-     * 
-     * @param src source file
+     *
+     * @param src  source file
      * @param dest destination file
      * @throws IOException propagated exceptions
      */
@@ -137,7 +137,7 @@ public final class FileUtils {
 
     /**
      * Loads a string from a named file.
-     * 
+     *
      * @param fileName source data
      * @return string compiled from source
      * @throws IOException propagated exceptions
@@ -148,7 +148,7 @@ public final class FileUtils {
 
     /**
      * Loads a string from a File object.
-     * 
+     *
      * @param file source data
      * @return string compiled from source
      * @throws IOException propagated exceptions
@@ -159,7 +159,7 @@ public final class FileUtils {
 
     /**
      * Loads a string from a InputStream object.
-     * 
+     *
      * @param in source data
      * @return string compiled from source
      * @throws IOException propagated exceptions
@@ -170,7 +170,7 @@ public final class FileUtils {
 
     /**
      * Loads a string from a reader object.
-     * 
+     *
      * @param reader source data
      * @return string compiled from source
      * @throws IOException propagated exceptions
@@ -191,27 +191,51 @@ public final class FileUtils {
 
     /**
      * Read a named file into a list of lines.
-     * 
+     *
+     * @param is source input stream
+     * @return list compiled from source
+     * @throws IOException propagated exceptions
+     */
+    public static List<String> readLines(final InputStream is) throws IOException {
+        return readLines(is, -1);
+    }
+
+    /**
+     * Read a named file into a list of lines.
+     *
      * @param fileName source file name
      * @return list compiled from source
      * @throws IOException propagated exceptions
      */
     public static List<String> readLines(final String fileName) throws IOException {
-        return readLines(fileName, -1);
+        return readLines(new FileInputStream(new File(fileName)), -1);
     }
 
     /**
      * Read a named file into a list of lines (limited).
-     * 
+     *
      * @param fileName source file name
-     * @param max maximum number of lines to read
+     * @param max      maximum number of lines to read
      * @return list compiled from source
      * @throws IOException propagated exceptions
      */
     public static List<String> readLines(final String fileName, final int max) throws IOException {
+        return readLines(new FileInputStream(new File(fileName)), max);
+
+    }
+
+    /**
+     * Read a named file into a list of lines (limited).
+     *
+     * @param is  input stream
+     * @param max maximum number of lines to read
+     * @return list compiled from source
+     * @throws IOException propagated exceptions
+     */
+    public static List<String> readLines(final InputStream is, final int max) throws IOException {
         final List<String> lines = new ArrayList<String>();
 
-        final Reader reader = new FileReader(new File(fileName));
+        final Reader reader = new InputStreamReader(is);
         final LineNumberReader r = new LineNumberReader(reader);
         String s;
 
@@ -229,14 +253,14 @@ public final class FileUtils {
         return lines;
     }
 
+
     /**
      * Helper interface for key mapping.
-     * 
      */
     public interface KeyFunction {
         /**
          * map key spaces.
-         * 
+         *
          * @param key input key
          * @return output key
          */
@@ -245,21 +269,21 @@ public final class FileUtils {
 
     /**
      * Reads a delimited file, filtering records using a function.
-     * 
+     * <p/>
      * Reads a text file, splitting each line into fields. If the fields at
      * _keyPosition_ mapped by the _keyFunction_ equals the _key_ the line is
      * added to the resulting list.
-     * 
-     * @param fileName input file
-     * @param key key value to match
+     *
+     * @param fileName    input file
+     * @param key         key value to match
      * @param keyFunction mapping function
      * @param keyPosition field to pass the mapping function
-     * @param delimiter field seperator
+     * @param delimiter   field seperator
      * @return list of strings that pass the constraint
      */
     public static List<String> readLines(final String fileName, final int key, final KeyFunction keyFunction,
-            final int keyPosition,
-            final String delimiter) throws IOException {
+                                         final int keyPosition,
+                                         final String delimiter) throws IOException {
         final List<String> lines = new ArrayList<String>();
 
         final Reader reader = new FileReader(new File(fileName));
@@ -290,7 +314,7 @@ public final class FileUtils {
 
     /**
      * Feed each line form a file into a file consumer.
-     * 
+     *
      * @param fileName input text file
      * @param consumer consumer to call for each line
      * @throws IOException propagated exception
@@ -313,7 +337,7 @@ public final class FileUtils {
     public interface FileConsumer {
         /**
          * consume an input line.
-         * 
+         *
          * @param line input.
          */
         void consume(String line);
@@ -321,7 +345,7 @@ public final class FileUtils {
 
     /**
      * Get list of file names.
-     * 
+     *
      * @param topLevelDirName directory to list
      * @return list of file names
      */
@@ -348,7 +372,7 @@ public final class FileUtils {
 
     /**
      * Reads a zipped collection of text files into a list of strings.
-     * 
+     *
      * @param sourceZipFileName source fo;e
      * @return list of strings from zipped files
      * @throws IOException propagated exception
@@ -389,8 +413,8 @@ public final class FileUtils {
 
     /**
      * Assembles a directory into a zip file.
-     * 
-     * @param dirToZip source directory
+     *
+     * @param dirToZip    source directory
      * @param zipFileName output file name
      * @throws IOException propagated exception
      */
@@ -400,10 +424,10 @@ public final class FileUtils {
 
     /**
      * Assembles a directory into a zip file with filtering.
-     * 
-     * @param dirToZip source directory
+     *
+     * @param dirToZip    source directory
      * @param zipFileName output file name
-     * @param filter file filter
+     * @param filter      file filter
      * @throws IOException propagated exception
      */
     public static void writeToZipFile(final String dirToZip, final String zipFileName, final FilenameFilter filter)
@@ -478,9 +502,9 @@ public final class FileUtils {
 
     /**
      * Writes string to text file.
-     * 
+     *
      * @param fileName file to write
-     * @param text text to write
+     * @param text     text to write
      * @throws IOException propagated exception
      */
     public static void writeTextFile(final String fileName, final String text) throws IOException {
@@ -498,9 +522,9 @@ public final class FileUtils {
 
     /**
      * Appends string to text file.
-     * 
+     *
      * @param fileName file to append
-     * @param text text to append
+     * @param text     text to append
      * @throws IOException propagated exception
      */
     public static void appendToTextFile(final String fileName, final String text) throws IOException {
