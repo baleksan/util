@@ -194,7 +194,7 @@
     <distributionManagement>
         <repository>
             <id>yammer-internal</id>
-            <url>scp://repo.yammer.com/opt/repos/maven/</url>
+            <url>scp://repo.int.yammer.com/opt/repos/maven/</url>
         </repository>
     </distributionManagement>
 
