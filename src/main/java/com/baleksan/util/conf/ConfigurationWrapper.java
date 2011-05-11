@@ -8,8 +8,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author <a href="mailto:baleksan@yammer-inc.com" boris/>
@@ -142,5 +141,33 @@ public class ConfigurationWrapper {
 
     public boolean getPropertyAsBoolean(String propertyName, boolean defaultValue) {
         return config.getBoolean(propertyName, defaultValue);
+    }
+
+    public int getNumberProperties() {
+        return getPropertyNames().size();
+    }
+
+    public List<String> getPropertyNames() {
+        List<String> properties = new ArrayList<String>();
+        Iterator it = config.getKeys();
+        while (it.hasNext()) {
+            properties.add((String) it.next());
+        }
+
+        return properties;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(getNumberProperties());
+        builder.append(" props in ");
+        builder.append(config.getNumberOfConfigurations());
+        builder.append(" configs.");
+
+
+        return builder.toString();
     }
 }
