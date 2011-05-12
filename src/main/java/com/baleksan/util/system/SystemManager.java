@@ -1,10 +1,10 @@
 package com.baleksan.util.system;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import org.apache.log4j.Logger;
 
 /**
  * @author <a href="mailto:baleksan@yammer-inc.com" boris/>
@@ -27,6 +27,15 @@ public class SystemManager {
     }
 
     public void shutdown() {
+        shutdownNow();
+        System.exit(-1);
+    }
+
+    public void shutdownNoExit() {
+        shutdownNow();
+    }
+
+    private void shutdownNow() {
         for (ShutdownHooked shutdown : shutdownHookedList) {
             try {
                 shutdown.onShutdown();
@@ -36,7 +45,6 @@ public class SystemManager {
         }
 
         LOG.info("Self-invoked shutdown complete!");
-        System.exit(-1);
     }
 
     class ShutdownHookedThread extends Thread {
