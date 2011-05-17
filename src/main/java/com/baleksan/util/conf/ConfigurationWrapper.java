@@ -157,6 +157,38 @@ public class ConfigurationWrapper {
         return properties;
     }
 
+    public Set<Entry<String, String>> getProperties() {
+        Set<Entry<String, String>> entries = new HashSet<Entry<String, String>>();
+        Iterator it = config.getKeys();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            String value = (String) config.getProperty(key);
+
+            entries.add(new Entry<String, String>(key, value));
+        }
+
+        return entries;
+    }
+
+
+    public class Entry<K, V> {
+        K key;
+        V value;
+
+        public Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+    }
+
 
     @Override
     public String toString() {
