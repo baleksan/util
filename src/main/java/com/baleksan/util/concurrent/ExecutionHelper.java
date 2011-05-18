@@ -11,14 +11,23 @@ import java.util.concurrent.*;
  * iterable interface to the completed {@link Callable} instances.
  * Lifted from ParallelMultiSearcher
  *
- * @param <T>
- * the type of the {@link Callable} return value
+ * @param <T> the type of the {@link Callable} return value
  */
 public final class ExecutionHelper<T> implements Iterator<T>, Iterable<T> {
     private final CompletionService<T> service;
     private int numTasks;
+    private long timeout;
+    private TimeUnit unit;
+
+    public ExecutionHelper(final Executor executor, long timeout, TimeUnit unit) {
+        this.timeout = timeout;
+        this.unit = unit;
+        this.service = new ExecutorCompletionService<T>(executor);
+    }
 
     public ExecutionHelper(final Executor executor) {
+        this.timeout = -1;
+        this.unit = TimeUnit.MILLISECONDS;
         this.service = new ExecutorCompletionService<T>(executor);
     }
 
@@ -35,7 +44,7 @@ public final class ExecutionHelper<T> implements Iterator<T>, Iterable<T> {
         if (!this.hasNext())
             throw new NoSuchElementException();
         try {
-            return service.take().get();
+            return timeout > 0 ? service.poll(timeout, unit).get() : service.take().get();
         } catch (InterruptedException e) {
             throw new ThreadInterruptedException(e);
         } catch (ExecutionException e) {
@@ -55,8 +64,19 @@ public final class ExecutionHelper<T> implements Iterator<T>, Iterable<T> {
     }
 
     public void clearTasks() {
-        while (service.poll() != null) {
-            numTasks--;
+        boolean interrupted = false;
+        InterruptedException lastException = null;
+        try {
+            while ((timeout > 0 ? service.poll(timeout, unit) : service.poll()) != null) {
+                numTasks--;
+            }
+        } catch (InterruptedException ignored) {
+            interrupted = true;
+            lastException = ignored;
+        }
+
+        if (interrupted) {
+            throw new ThreadInterruptedException(lastException);
         }
     }
 }
