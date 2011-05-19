@@ -44,7 +44,8 @@ public final class ExecutionHelper<T> implements Iterator<T>, Iterable<T> {
         if (!this.hasNext())
             throw new NoSuchElementException();
         try {
-            return timeout > 0 ? service.poll(timeout, unit).get() : service.take().get();
+            Future<T> future = timeout > 0 ? service.poll(timeout, unit) : service.take();
+            return future == null ? null : future.get();
         } catch (InterruptedException e) {
             throw new ThreadInterruptedException(e);
         } catch (ExecutionException e) {
@@ -67,7 +68,15 @@ public final class ExecutionHelper<T> implements Iterator<T>, Iterable<T> {
         boolean interrupted = false;
         InterruptedException lastException = null;
         try {
-            while ((timeout > 0 ? service.poll(timeout, unit) : service.poll()) != null) {
+            while (true) {
+                Future<T> future = timeout > 0 ? service.poll(timeout, unit) : service.poll();
+                if (future == null) {
+                    break;
+                }
+
+                if (!future.isCancelled()) {
+                    future.cancel(true);
+                }
                 numTasks--;
             }
         } catch (InterruptedException ignored) {
