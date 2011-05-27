@@ -103,7 +103,7 @@ public class TreeNode<N extends Comparable> implements Comparable<TreeNode<N>> {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals( Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -118,7 +118,7 @@ public class TreeNode<N extends Comparable> implements Comparable<TreeNode<N>> {
     }
 
     @Override
-    public int compareTo(TreeNode<N> o) {
+    public int compareTo( TreeNode<N> o) {
         return value.compareTo(o.getValue());
     }
 }

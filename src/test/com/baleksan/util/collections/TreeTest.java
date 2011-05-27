@@ -13,7 +13,7 @@ public class TreeTest {
 
     @Test
     public void testDFS1() {
-        Tree<TestMessage> tree = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree = new Tree<TestMessage>(new TestInserter());
         tree.setRoot(new TestMessage(0, -1));
         tree.add(new TestMessage(1, 0));
         tree.add(new TestMessage(2, 0));
@@ -32,7 +32,7 @@ public class TreeTest {
 
     @Test
     public void testDFS2() {
-        Tree<TestMessage> tree = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree = new Tree<TestMessage>(new TestInserter());
         tree.setRoot(new TestMessage(0, -1));
         tree.add(new TestMessage(1, 0));
         tree.add(new TestMessage(2, 0));
@@ -45,7 +45,7 @@ public class TreeTest {
 
     @Test
     public void testDFS3() {
-        Tree<TestMessage> tree = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree = new Tree<TestMessage>(new TestInserter());
         tree.setRoot(new TestMessage(0, -1));
         tree.add(new TestMessage(1, 0));
         tree.add(new TestMessage(2, 1));
@@ -58,7 +58,7 @@ public class TreeTest {
 
     @Test
     public void testDFS4() {
-        Tree<TestMessage> tree = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree = new Tree<TestMessage>(new TestInserter());
         tree.setRoot(new TestMessage(0, -1));
         tree.add(new TestMessage(1, 0));
         tree.add(new TestMessage(2, 1));
@@ -73,7 +73,7 @@ public class TreeTest {
 
     @Test
     public void testSize() {
-        Tree<TestMessage> tree = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree = new Tree<TestMessage>(new TestInserter());
         tree.setRoot(new TestMessage(0, -1));
         tree.add(new TestMessage(1, 0));
         tree.add(new TestMessage(2, 0));
@@ -91,7 +91,7 @@ public class TreeTest {
 
     @Test
     public void testRemoveNode() {
-        Tree<TestMessage> tree = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree = new Tree<TestMessage>(new TestInserter());
         tree.setRoot(new TestMessage(0, -1));
         tree.add(new TestMessage(1, 0));
         tree.add(new TestMessage(2, 0));
@@ -115,7 +115,7 @@ public class TreeTest {
 
     @Test
     public void testEquals() {
-        Tree<TestMessage> tree1 = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree1 = new Tree<TestMessage>(new TestInserter());
         tree1.setRoot(new TestMessage(0, -1));
         tree1.add(new TestMessage(1, 0));
         tree1.add(new TestMessage(2, 0));
@@ -128,7 +128,7 @@ public class TreeTest {
         tree1.add(new TestMessage(9, 8));
         tree1.add(new TestMessage(10, 9));
 
-        Tree<TestMessage> tree2 = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree2 = new Tree<TestMessage>(new TestInserter());
         tree2.setRoot(new TestMessage(0, -1));
         tree2.add(new TestMessage(1, 0));
         tree2.add(new TestMessage(2, 0));
@@ -146,7 +146,7 @@ public class TreeTest {
 
     @Test
     public void testDfsNoRoot() {
-        Tree<TestMessage> tree1 = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree1 = new Tree<TestMessage>(new TestInserter());
         tree1.add(new TestMessage(0, -1));
         tree1.add(new TestMessage(1, 0));
         tree1.add(new TestMessage(2, 0));
@@ -165,7 +165,7 @@ public class TreeTest {
 
     @Test
     public void testContainsValue() {
-        Tree<TestMessage> tree1 = new TreeImpl<TestMessage>(new TestInserter());
+        Tree<TestMessage> tree1 = new Tree<TestMessage>(new TestInserter());
         tree1.add(new TestMessage(0, -1));
         tree1.add(new TestMessage(1, 0));
         tree1.add(new TestMessage(2, 0));

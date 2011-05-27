@@ -13,7 +13,7 @@ public class ForestTest {
 
     @Test
     public void testSimpleForest() {
-        Forest<TestMessage> forest = new ForestImpl<TestMessage>(new TestInserter());
+        Forest<TestMessage> forest = new Forest<TestMessage>(new TestInserter());
         forest.add(new TestMessage(0, -1));
         forest.add(new TestMessage(1, 0));
         forest.add(new TestMessage(2, 0));
@@ -33,7 +33,7 @@ public class ForestTest {
 
     @Test
     public void testForestMultipleTrees() {
-        Forest<TestMessage> forest = new ForestImpl<TestMessage>(new TestInserter());
+        Forest<TestMessage> forest = new Forest<TestMessage>(new TestInserter());
         forest.add(new TestMessage(0, -1));
         forest.add(new TestMessage(1, 0));
         forest.add(new TestMessage(7, 5));
@@ -48,7 +48,7 @@ public class ForestTest {
 
     @Test
     public void testMergeTrees() {
-        Forest<TestMessage> forest = new ForestImpl<TestMessage>(new TestInserter());
+        Forest<TestMessage> forest = new Forest<TestMessage>(new TestInserter());
         forest.add(new TestMessage(0, -1));
         forest.add(new TestMessage(1, 0));
         forest.add(new TestMessage(7, 5));
@@ -70,7 +70,7 @@ public class ForestTest {
 
     @Test
     public void testMergeTrees2() {
-        Forest<TestMessage> forest = new ForestImpl<TestMessage>(new TestInserter());
+        Forest<TestMessage> forest = new Forest<TestMessage>(new TestInserter());
         forest.add(new TestMessage(0, -1));
         forest.add(new TestMessage(7, 5));
         forest.add(new TestMessage(8, 1));
@@ -95,7 +95,7 @@ public class ForestTest {
 
     @Test
     public void testMergeTreesSymmetricalMerge() {
-        Forest<TestMessage> forest = new ForestImpl<TestMessage>(new TestInserter());
+        Forest<TestMessage> forest = new Forest<TestMessage>(new TestInserter());
         forest.add(new TestMessage(1, 0));
         forest.add(new TestMessage(2, 1));
         forest.add(new TestMessage(3, 4));
@@ -108,7 +108,7 @@ public class ForestTest {
 
     @Test
     public void testMergeTrees3() {
-        Forest<TestMessage> forest = new ForestImpl<TestMessage>(new TestInserter());
+        Forest<TestMessage> forest = new Forest<TestMessage>(new TestInserter());
         forest.add(new TestMessage(0, -1));
         forest.add(new TestMessage(2, 1));
         forest.add(new TestMessage(1, -1));
@@ -145,7 +145,7 @@ public class ForestTest {
 
     @Test
     public void testDfs() {
-        Forest<TestMessage> forest = new ForestImpl<TestMessage>(new TestInserter());
+        Forest<TestMessage> forest = new Forest<TestMessage>(new TestInserter());
         forest.add(new TestMessage(0, -1));
         forest.add(new TestMessage(2, 1));
         forest.add(new TestMessage(1, -1));

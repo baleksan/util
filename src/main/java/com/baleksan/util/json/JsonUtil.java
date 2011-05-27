@@ -1,7 +1,5 @@
 package com.baleksan.util.json;
 
-import com.baleksan.util.json.JacksonWritable;
-import com.baleksan.util.json.JacksonWritableConfiguration;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonNode;
@@ -15,6 +13,7 @@ import java.io.StringWriter;
  * @author <a href="mailto:baleksan@yammer-inc.com" boris/>
  */
 public class JsonUtil {
+    private static ObjectMapper mapper = new ObjectMapper();
     private static JsonFactory jsonFactory = new JsonFactory();
 
     public static String toJson(JacksonWritable jacksonWritable) throws IOException {
@@ -31,9 +30,14 @@ public class JsonUtil {
     }
 
     public static void fromJson(String json, JacksonReadable readable) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
         StringReader reader = new StringReader(json);
         JsonNode root = mapper.readTree(reader);
         readable.fromJsonTreeModel(root);
+    }
+
+    public static String toJson(Object object) throws IOException {
+        StringWriter writer = new StringWriter();
+        mapper.writeValue(writer, object);
+        return writer.toString();
     }
 }
