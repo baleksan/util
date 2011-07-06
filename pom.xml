@@ -161,7 +161,7 @@
                         </excludes>
                     </artifactSet>
                     <outputFile>
-                        ${project.build.directory}/dist/${artifactId}-${version}.jar
+                        ${project.build.directory}/dist/${name}-${version}.jar
                     </outputFile>
                 </configuration>
                 <executions>
