@@ -5,7 +5,7 @@
     <artifactId>util</artifactId>
     <packaging>jar</packaging>
     <version>1.0.1</version>
-    <name>util</name>
+    <name>baleksan-util</name>
     <url>http://maven.apache.org</url>
     <description>General purpose Java utils</description>
     <properties>
