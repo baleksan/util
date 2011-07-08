@@ -1,5 +1,6 @@
 package com.baleksan.util.filter;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,11 @@ public interface FilterReporter<K> extends Filter<K> {
 
     int getFilteredCount();
 
+    int getTotalCount();
+
     void printFilteringReport();
+
+    void printFilteringReport(PrintWriter writer);
 
     void start();
 }

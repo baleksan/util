@@ -3,6 +3,8 @@ package com.baleksan.util.filter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +72,11 @@ public class SerialFilter<K> implements FilterReporter<K> {
     }
 
     @Override
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    @Override
     public void printFilteringReport() {
         int allPotentialCounts = totalCount + getFilteredCount();
         LOG.debug("Filtered out " + getFilteredCount() + " keys out of " + allPotentialCounts + " = " +
@@ -80,6 +87,22 @@ public class SerialFilter<K> implements FilterReporter<K> {
         for (String explanation : explanationFeatureListMap.keySet()) {
             int size = explanationFeatureListMap.get(explanation).size();
             LOG.debug("Filter " + explanation + " filtered out " + size + " keys " +
+                    (float) size / (float) getFilteredCount() * 100 + "%");
+        }
+    }
+
+    @Override
+    public void printFilteringReport(PrintWriter writer) {
+        int allPotentialCounts = totalCount + getFilteredCount();
+
+        writer.write("Filtered out " + getFilteredCount() + " keys out of " + allPotentialCounts + " = " +
+                (float) getFilteredCount() / (float) allPotentialCounts * 100 + " %. Left " +
+                (allPotentialCounts - getFilteredCount()));
+
+        Map<String, List<K>> explanationFeatureListMap = reportFilteredFeatures();
+        for (String explanation : explanationFeatureListMap.keySet()) {
+            int size = explanationFeatureListMap.get(explanation).size();
+            writer.write("Filter " + explanation + " filtered out " + size + " keys " +
                     (float) size / (float) getFilteredCount() * 100 + "%");
         }
     }
