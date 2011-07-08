@@ -17,6 +17,7 @@ public class SerialFilter<K> implements FilterReporter<K> {
     Filter<K>[] filters;
     Map<String, List<K>> explanationFeatureListMap;
     int filteredCount;
+    int totalCount;
 
     public SerialFilter(Filter<K>... filters) {
         this.filters = filters;
@@ -24,7 +25,14 @@ public class SerialFilter<K> implements FilterReporter<K> {
     }
 
     @Override
+    public void start() {
+        totalCount = 0;
+    }
+
+    @Override
     public boolean accept(K key) {
+        totalCount++;
+
         for (Filter<K> filter : filters) {
             //one need to fail for all to fail
             if (!filter.accept(key)) {
@@ -62,8 +70,8 @@ public class SerialFilter<K> implements FilterReporter<K> {
     }
 
     @Override
-    public void printFilteringReport(int count) {
-        int allPotentialCounts = count + getFilteredCount();
+    public void printFilteringReport() {
+        int allPotentialCounts = totalCount + getFilteredCount();
         LOG.debug("Filtered out " + getFilteredCount() + " keys out of " + allPotentialCounts + " = " +
                 (float) getFilteredCount() / (float) allPotentialCounts * 100 + " %. Left " +
                 (allPotentialCounts - getFilteredCount()));

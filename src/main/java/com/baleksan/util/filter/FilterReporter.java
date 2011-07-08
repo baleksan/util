@@ -18,5 +18,7 @@ public interface FilterReporter<K> extends Filter<K> {
 
     int getFilteredCount();
 
-    void printFilteringReport(int count);
+    void printFilteringReport();
+
+    void start();
 }
