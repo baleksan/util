@@ -40,4 +40,27 @@ public class Util {
 
         return builder.toString().trim();
     }
+
+    /**
+     * Formats stack trace to print the exception stack trace (to be used
+     * for instance in the Hadoop jobs)
+     *
+     * @param ex
+     * @return string which represents the stack trace
+     */
+    public static String formatStackTrace(Exception ex) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(ex.getMessage() == null ? "no message" : ex.getMessage());
+        StackTraceElement[] trace = ex.getStackTrace();
+        int index = 0;
+        for (StackTraceElement element : ex.getStackTrace()) {
+            builder.append(element.toString());
+
+            if (index + 1 < trace.length) {
+                builder.append(EOL);
+            }
+        }
+        return builder.toString();
+    }
+
 }
