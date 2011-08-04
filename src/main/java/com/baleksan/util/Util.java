@@ -50,7 +50,8 @@ public class Util {
      */
     public static String formatStackTrace(Exception ex) {
         StringBuilder builder = new StringBuilder();
-        builder.append(ex.getMessage() == null ? "no message" : ex.getMessage());
+        builder.append(ex.getMessage() == null ? ex.getClass().getName() : ex.getMessage());
+        builder.append(EOL);
         StackTraceElement[] trace = ex.getStackTrace();
         int index = 0;
         for (StackTraceElement element : ex.getStackTrace()) {
