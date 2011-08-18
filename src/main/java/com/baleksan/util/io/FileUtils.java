@@ -30,7 +30,8 @@ import org.apache.log4j.Logger;
 /**
  * @author <a href="mailto:baleksan@yammer-inc.com" boris/>
  */
-public final class FileUtils {
+public final class FileUtils
+{
     /**
      * utility logger.
      */
@@ -41,7 +42,8 @@ public final class FileUtils {
     public static final String EOL = System.getProperty("line.separator");
 
     // disable subclassing and instantiation
-    private FileUtils() {
+    private FileUtils()
+    {
     }
 
     /**
@@ -52,7 +54,8 @@ public final class FileUtils {
      * @param dir directory to delete
      * @return true on success
      */
-    public static boolean deleteDir(final File dir) {
+    public static boolean deleteDir(final File dir)
+    {
         if (dir == null) {
             return true;
         }
@@ -75,7 +78,8 @@ public final class FileUtils {
      *
      * @param dir dir to delete
      */
-    public static void fastDeleteDir(final File dir) {
+    public static void fastDeleteDir(final File dir)
+    {
         final String name = dir.getName() + "-" + System.currentTimeMillis();
         final File parent = dir.getParentFile();
         final File toBeDeleted = new File(parent, name);
@@ -94,7 +98,8 @@ public final class FileUtils {
      * @param dest destination file
      * @throws IOException propagated exceptions
      */
-    public static void copyLargeFile(final File src, final File dest) throws IOException {
+    public static void copyLargeFile(final File src, final File dest) throws IOException
+    {
         FileChannel in = null, out = null;
         try {
             in = new FileInputStream(src).getChannel();
@@ -121,7 +126,8 @@ public final class FileUtils {
      * @param dest destination file
      * @throws IOException propagated exceptions
      */
-    public static void copySmallFile(final File src, final File dest) throws IOException {
+    public static void copySmallFile(final File src, final File dest) throws IOException
+    {
         final int bufferSize = 1024;
         final InputStream in = new FileInputStream(src);
         final OutputStream out = new FileOutputStream(dest);
@@ -142,7 +148,8 @@ public final class FileUtils {
      * @return string compiled from source
      * @throws IOException propagated exceptions
      */
-    public static String readFile(final String fileName) throws IOException {
+    public static String readFile(final String fileName) throws IOException
+    {
         return readString(new FileReader(fileName));
     }
 
@@ -153,7 +160,8 @@ public final class FileUtils {
      * @return string compiled from source
      * @throws IOException propagated exceptions
      */
-    public static String readFile(final File file) throws IOException {
+    public static String readFile(final File file) throws IOException
+    {
         return readString(new FileReader(file));
     }
 
@@ -164,7 +172,8 @@ public final class FileUtils {
      * @return string compiled from source
      * @throws IOException propagated exceptions
      */
-    public static String readString(final InputStream in) throws IOException {
+    public static String readString(final InputStream in) throws IOException
+    {
         return readString(new InputStreamReader(in));
     }
 
@@ -175,7 +184,8 @@ public final class FileUtils {
      * @return string compiled from source
      * @throws IOException propagated exceptions
      */
-    public static String readString(final Reader reader) throws IOException {
+    public static String readString(final Reader reader) throws IOException
+    {
         final StringBuilder actual = new StringBuilder(128);
         final LineNumberReader r = new LineNumberReader(reader);
         String s;
@@ -196,7 +206,8 @@ public final class FileUtils {
      * @return list compiled from source
      * @throws IOException propagated exceptions
      */
-    public static List<String> readLines(final InputStream is) throws IOException {
+    public static List<String> readLines(final InputStream is) throws IOException
+    {
         return readLines(is, -1);
     }
 
@@ -207,7 +218,8 @@ public final class FileUtils {
      * @return list compiled from source
      * @throws IOException propagated exceptions
      */
-    public static List<String> readLines(final String fileName) throws IOException {
+    public static List<String> readLines(final String fileName) throws IOException
+    {
         return readLines(new FileInputStream(new File(fileName)), -1);
     }
 
@@ -219,7 +231,8 @@ public final class FileUtils {
      * @return list compiled from source
      * @throws IOException propagated exceptions
      */
-    public static List<String> readLines(final String fileName, final int max) throws IOException {
+    public static List<String> readLines(final String fileName, final int max) throws IOException
+    {
         return readLines(new FileInputStream(new File(fileName)), max);
 
     }
@@ -232,7 +245,8 @@ public final class FileUtils {
      * @return list compiled from source
      * @throws IOException propagated exceptions
      */
-    public static List<String> readLines(final InputStream is, final int max) throws IOException {
+    public static List<String> readLines(final InputStream is, final int max) throws IOException
+    {
         final List<String> lines = new ArrayList<String>();
 
         final Reader reader = new InputStreamReader(is);
@@ -257,7 +271,8 @@ public final class FileUtils {
     /**
      * Helper interface for key mapping.
      */
-    public interface KeyFunction {
+    public interface KeyFunction
+    {
         /**
          * map key spaces.
          *
@@ -283,7 +298,8 @@ public final class FileUtils {
      */
     public static List<String> readLines(final String fileName, final int key, final KeyFunction keyFunction,
                                          final int keyPosition,
-                                         final String delimiter) throws IOException {
+                                         final String delimiter) throws IOException
+    {
         final List<String> lines = new ArrayList<String>();
 
         final Reader reader = new FileReader(new File(fileName));
@@ -312,6 +328,21 @@ public final class FileUtils {
         return lines;
     }
 
+
+    /**
+     * Feed each line form a file into a file consumer.
+     *
+     * @param input stream
+     * @param consumer consumer to call for each line
+     * @throws IOException propagated exception
+     */
+    public static void consumeLines(final InputStream is, final FileConsumer consumer) throws IOException
+    {
+        final LineNumberReader r = new LineNumberReader(new InputStreamReader(is));
+
+        consumeWithReader(r, consumer);
+    }
+
     /**
      * Feed each line form a file into a file consumer.
      *
@@ -319,9 +350,15 @@ public final class FileUtils {
      * @param consumer consumer to call for each line
      * @throws IOException propagated exception
      */
-    public static void consumeLines(final String fileName, final FileConsumer consumer) throws IOException {
-        final Reader reader = new FileReader(new File(fileName));
-        final LineNumberReader r = new LineNumberReader(reader);
+    public static void consumeLines(final String fileName, final FileConsumer consumer) throws IOException
+    {
+        final LineNumberReader r = new LineNumberReader(new FileReader(new File(fileName)));
+
+        consumeWithReader(r, consumer);
+    }
+
+    private static void consumeWithReader(final LineNumberReader r, final FileConsumer consumer) throws IOException
+    {
         String s;
 
         while (null != (s = r.readLine())) {
@@ -334,7 +371,8 @@ public final class FileUtils {
     /**
      * utility interface for iterating over files.
      */
-    public interface FileConsumer {
+    public interface FileConsumer
+    {
         /**
          * consume an input line.
          *
@@ -349,7 +387,8 @@ public final class FileUtils {
      * @param topLevelDirName directory to list
      * @return list of file names
      */
-    public static List<File> getFilesRecursively(final String topLevelDirName) {
+    public static List<File> getFilesRecursively(final String topLevelDirName)
+    {
         final List<File> fileList = new ArrayList<File>();
         final File topLevelDir = new File(topLevelDirName);
 
@@ -358,7 +397,8 @@ public final class FileUtils {
         return fileList;
     }
 
-    private static void getFilesRecursively0(final File dir, final List<File> fileList) {
+    private static void getFilesRecursively0(final File dir, final List<File> fileList)
+    {
         for (final File file : dir.listFiles()) {
             if (file.isDirectory()) {
                 getFilesRecursively0(file, fileList);
@@ -377,7 +417,8 @@ public final class FileUtils {
      * @return list of strings from zipped files
      * @throws IOException propagated exception
      */
-    public static List<String> readZipFile(final String sourceZipFileName) throws IOException {
+    public static List<String> readZipFile(final String sourceZipFileName) throws IOException
+    {
         final int reportFreq = 250;
         final List<String> resultingItems = new ArrayList<String>();
         final File sourceZipFile = new File(sourceZipFileName);
@@ -418,7 +459,8 @@ public final class FileUtils {
      * @param zipFileName output file name
      * @throws IOException propagated exception
      */
-    public static void writeToZipFile(final String dirToZip, final String zipFileName) throws IOException {
+    public static void writeToZipFile(final String dirToZip, final String zipFileName) throws IOException
+    {
         writeToZipFile(dirToZip, zipFileName, null);
     }
 
@@ -431,7 +473,8 @@ public final class FileUtils {
      * @throws IOException propagated exception
      */
     public static void writeToZipFile(final String dirToZip, final String zipFileName, final FilenameFilter filter)
-            throws IOException {
+            throws IOException
+    {
         // zip up the results
         final File outputDirFile = new File(dirToZip);
 
@@ -483,9 +526,11 @@ public final class FileUtils {
     /**
      * Filter for files ending in "xml".
      */
-    public static class XMLFilenameFilter implements FilenameFilter {
+    public static class XMLFilenameFilter implements FilenameFilter
+    {
         @Override
-        public boolean accept(final File dir, final String name) {
+        public boolean accept(final File dir, final String name)
+        {
             return name.endsWith("xml");
         }
     }
@@ -493,9 +538,11 @@ public final class FileUtils {
     /**
      * Filter for files ending in "txt".
      */
-    public static class TxtFilenameFilter implements FilenameFilter {
+    public static class TxtFilenameFilter implements FilenameFilter
+    {
         @Override
-        public boolean accept(final File dir, final String name) {
+        public boolean accept(final File dir, final String name)
+        {
             return name.endsWith("txt");
         }
     }
@@ -507,7 +554,8 @@ public final class FileUtils {
      * @param text     text to write
      * @throws IOException propagated exception
      */
-    public static void writeTextFile(final String fileName, final String text) throws IOException {
+    public static void writeTextFile(final String fileName, final String text) throws IOException
+    {
         FileWriter writer = null;
         try {
             writer = new FileWriter(fileName);
@@ -527,7 +575,8 @@ public final class FileUtils {
      * @param text     text to append
      * @throws IOException propagated exception
      */
-    public static void appendToTextFile(final String fileName, final String text) throws IOException {
+    public static void appendToTextFile(final String fileName, final String text) throws IOException
+    {
         FileWriter writer = null;
         try {
             writer = new FileWriter(fileName, true);
