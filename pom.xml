@@ -12,12 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>yammer-internal</id>
-            <url>http://repo.int.yammer.com/maven/</url>
-        </repository>
-    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
@@ -190,12 +185,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>yammer-internal</id>
-            <url>scp://repo.int.yammer.com/opt/repos/maven/</url>
-        </repository>
-    </distributionManagement>
-
 </project>
