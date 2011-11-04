@@ -16,10 +16,10 @@ import java.util.Map;
 public class SerialFilter<K> implements FilterReporter<K> {
     private static Logger LOG = LogManager.getLogger(SerialFilter.class);
 
-    Filter<K>[] filters;
+    protected Filter<K>[] filters;
     Map<String, List<K>> explanationFeatureListMap;
     int filteredCount;
-    int totalCount;
+    protected int totalCount;
 
     public SerialFilter(Filter<K>... filters) {
         this.filters = filters;
@@ -48,7 +48,7 @@ public class SerialFilter<K> implements FilterReporter<K> {
         return true;
     }
 
-    private void prepareExplanation(Filter filter, K key) {
+    protected void prepareExplanation(Filter filter, K key) {
         String explanation = filter.getClass().getName();
 
         List<K> featureList = explanationFeatureListMap.containsKey(explanation)

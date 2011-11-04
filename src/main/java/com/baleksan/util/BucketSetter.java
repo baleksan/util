@@ -10,9 +10,11 @@ import java.util.Set;
 /**
  * @author <a href="mailto:baleksan@yammer-inc.com" boris/>
  */
-public class BucketSetter {
+public class BucketSetter
+{
 
-    public static void setBuckets(List<? extends Scorable> items, int numBins, int center) {
+    public static void setBuckets(List<? extends Scorable> items, int numBins, int center)
+    {
         if (numBins <= 1) {
             throw new IllegalArgumentException("Number of bins must be greater than one.");
         }
@@ -49,6 +51,62 @@ public class BucketSetter {
             for (int i = 0; i < numBins - 1; i++) {
                 if (item.getScore() < cuts.get(i)) {
                     item.setBucket(i + min);
+                    break;
+                }
+            }
+        }
+    }
+
+    public static void setBucketsLinear(List<? extends Scorable> items, int numBins)
+    {
+        if (numBins <= 1) {
+            throw new IllegalArgumentException("Number of bins must be greater than one.");
+        }
+
+        if (items == null || items.size() <= 0) {
+            return;
+        }
+
+        float min = Float.MAX_VALUE;
+        float max = Float.MIN_VALUE;
+        for (Scorable item : items) {
+            float score = item.getScore();
+
+            if (score < min) {
+                min = score;
+            }
+            if (score > max) {
+                max = score;
+            }
+        }
+
+        AdaptiveHistogram hist = new AdaptiveHistogram();
+        Set<Float> uniqueValues = new HashSet<Float>();
+        for (Scorable item : items) {
+            float score = item.getScore() - min;
+            if (!uniqueValues.contains(score)) {
+                hist.addValue(score);
+            }
+            uniqueValues.add(score);
+        }
+
+        int numValues = uniqueValues.size();
+        if (numValues < numBins) {
+            numBins = numValues;
+        }
+
+        int width = 100 / numBins;
+        List<Float> cuts = new ArrayList<Float>();
+        for (int i = 1; i < numBins; i++) {
+            float cut = hist.getValueForPercentile(width * i);
+            cuts.add(cut);
+        }
+
+        for (Scorable item : items) {
+            item.setBucket(numBins - 1);
+            for (int i = 0; i < numBins - 1; i++) {
+                if (item.getScore() < cuts.get(i)) {
+                    item.setBucket(i);
                     break;
                 }
             }
